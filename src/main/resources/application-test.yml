@@ -1,0 +1,7 @@
+server:
+  port: 8081
+  context-path: /demo
+
+projectMessage:
+    name: springboot---test
+    des: this is a demo.
