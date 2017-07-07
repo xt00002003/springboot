@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dark.dao.DriversDao" >
+  
+  <resultMap id="BaseResultMap" type="com.dark.entity.Drivers" >
+    <id column="did" property="did" jdbcType="BIGINT" />
+    <result column="dcode" property="dcode" jdbcType="VARCHAR" />
+    <result column="dname" property="dname" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="TINYINT" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="idno" property="idno" jdbcType="VARCHAR" />
+    <result column="addr" property="addr" jdbcType="VARCHAR" />
+    <result column="dltype" property="dltype" jdbcType="TINYINT" />
+    <result column="dlno" property="dlno" jdbcType="VARCHAR" />
+    <result column="dlrdate" property="dlrdate" jdbcType="DATE" />
+    <result column="dledate" property="dledate" jdbcType="DATE" />
+    <result column="birthdate" property="birthdate" jdbcType="DATE" />
+    <result column="idimg" property="idimg" jdbcType="VARCHAR" />
+    <result column="dlimg" property="dlimg" jdbcType="VARCHAR" />
+    <result column="cimg" property="cimg" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="TINYINT" />
+    <result column="contract" property="contract" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="createuser" property="createuser" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="did" parameterType="com.dark.entity.Drivers" >
+    insert into tms_drivers (did, dcode, dname, 
+      sex, phone, idno, addr, 
+      dltype, dlno, dlrdate, 
+      dledate, birthdate, idimg, 
+      dlimg, cimg, state, 
+      contract, remark,createtime,createuser)
+    values (#{did,jdbcType=BIGINT}, #{dcode,jdbcType=VARCHAR}, #{dname,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=TINYINT}, #{phone,jdbcType=VARCHAR}, #{idno,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, 
+      #{dltype,jdbcType=TINYINT}, #{dlno,jdbcType=VARCHAR}, #{dlrdate,jdbcType=DATE}, 
+      #{dledate,jdbcType=DATE}, #{birthdate,jdbcType=DATE}, #{idimg,jdbcType=VARCHAR}, 
+      #{dlimg,jdbcType=VARCHAR}, #{cimg,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}, 
+      #{contract,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},#{createtime,jdbcType=TIMESTAMP},#{createuser,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.dark.entity.Drivers" >
+    update tms_drivers
+    set state = #{state,jdbcType=TINYINT}
+    where dcode = #{dcode,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.dark.entity.Drivers" >
+    update tms_drivers
+    set 
+      dname = #{dname,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=TINYINT},
+      phone = #{phone,jdbcType=VARCHAR},
+      idno = #{idno,jdbcType=VARCHAR},
+      addr = #{addr,jdbcType=VARCHAR},
+      dltype = #{dltype,jdbcType=TINYINT},
+      dlno = #{dlno,jdbcType=VARCHAR},
+      dlrdate = #{dlrdate,jdbcType=DATE},
+      dledate = #{dledate,jdbcType=DATE},
+      birthdate = #{birthdate,jdbcType=DATE},
+      idimg = #{idimg,jdbcType=VARCHAR},
+      dlimg = #{dlimg,jdbcType=VARCHAR},
+      cimg = #{cimg,jdbcType=VARCHAR},
+      state = #{state,jdbcType=TINYINT},
+      contract = #{contract,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where did = #{did,jdbcType=BIGINT}
+  </update>
+
+  <select id="select" resultMap="BaseResultMap" parameterType="com.dark.entity.Drivers" >
+    select
+    did, dcode, dname, sex, phone, idno, addr, dltype, dlno, dlrdate, dledate, birthdate,
+    idimg, dlimg, cimg, state, contract, remark,createtime,createuser,(YEAR(CURDATE())-YEAR(birthdate)) as age
+    from tms_drivers
+    <where>
+      <if test="dname != null and dname != ''" >
+        AND dname = #{dname,jdbcType=VARCHAR}
+      </if>
+      <if test="sex != null" >
+        AND sex = #{sex,jdbcType=TINYINT}
+      </if>
+      <if test="phone != null and phone != ''" >
+        AND phone = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="idno != null and idno != ''" >
+        AND idno = #{idno,jdbcType=VARCHAR}
+      </if>
+      <if test="state != null" >
+        AND state = #{state,jdbcType=TINYINT}
+      </if>
+      <if test="dcode != null and dcode !=''" >
+        AND dcode = #{dcode,jdbcType=VARCHAR}
+      </if>
+    </where>
+    order by did asc
+
+  </select>
+
+  <select id="selectCount" resultType="java.lang.Long" parameterType="com.dark.entity.Drivers" >
+    select count( did)
+     from tms_drivers
+    <where>
+      <if test="dname != null and dname != ''" >
+        AND dname = #{dname,jdbcType=VARCHAR}
+      </if>
+      <if test="sex != null" >
+        AND sex = #{sex,jdbcType=TINYINT}
+      </if>
+      <if test="phone != null and phone != ''" >
+        AND phone = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="idno != null and idno != ''" >
+        AND idno = #{idno,jdbcType=VARCHAR}
+      </if>
+      <if test="state != null" >
+        AND state = #{state,jdbcType=TINYINT}
+      </if>
+      <if test="dcode != null and dcode !=''" >
+        AND dcode = #{dcode,jdbcType=VARCHAR}
+      </if>
+    </where>
+      order by did asc
+  </select>
+</mapper>
