@@ -33,9 +33,8 @@ public class HelloWold {
     }
     @GetMapping(value = "/index")
     public String index(){
-        ServiceInstance instance=client.getLocalServiceInstance();
-        logger.info("/index, host:"+instance.getHost() + ",service_id :"+instance.getServiceId());
-        return "Hello World";
+
+        return projectProperties.getName()+""+projectProperties.getDes();
     }
 
 
